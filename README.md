@@ -1,3 +1,17 @@
+goaccess 的 GeoIP API 很简单，外加下 MaxMind 数据库的过程中、注册账户时多试错了几次、被临时 Ban IP 了，就自己对接了一下 nali-cli
+
+build 后 test 了一下（有一定规模的实际 nginx log），巨慢（原本秒出结果，现在等了好一下），而且有几个 panel 崩了，但是 per-IP traffic 的 panel 没崩，算是勉强能用吧
+
+这完成度大概没法交给上游，要改的话纯真 IP 库里也没有分别给出大陆、国家、城市的信息，处理起来非常麻烦，就先这样吧
+
+Modifications Copyright (c) 2021 myl7
+
+Modifications are still licensed under MIT
+
+以下是原 README：
+
+---
+
 GoAccess [![Build Status](https://travis-ci.org/allinurl/goaccess.svg?branch=master)](https://travis-ci.org/allinurl/goaccess) [![GoAccess](https://goaccess.io/badge)](https://goaccess.io)
 ========
 
@@ -245,11 +259,11 @@ To output to a terminal and generate an interactive report:
 To generate an HTML report:
 
     # goaccess access.log -a > report.html
-    
+
 To generate a JSON report:
 
     # goaccess access.log -a -d -o json > report.json
-    
+
 To generate a CSV file:
 
     # goaccess access.log --no-csv-summary -o csv > report.csv
@@ -362,7 +376,7 @@ And you would like to append the virtual host to the request in order to see
 which virtual host the top urls belong to:
 
     awk '$8=$1$8' access.log | goaccess -a -
-    
+
 To do the same, but also use real-time filtering and parsing:
 
     tail -f  access.log | unbuffer -p awk '$8=$1$8' | goaccess -a -
@@ -410,7 +424,7 @@ your local machine!
     # ssh -n root@server 'tail -f /var/log/apache2/access.log' | goaccess -
 
 **Note:** SSH requires `-n` so GoAccess can read from stdin. Also, make sure to
-use SSH keys for authentication as it won't work if a passphrase is required. 
+use SSH keys for authentication as it won't work if a passphrase is required.
 
 #### Troubleshooting ####
 
