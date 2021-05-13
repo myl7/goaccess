@@ -63,7 +63,7 @@ if test "$openssl" = 'yes'; then
 fi
 
 # GeoIP
-AC_ARG_ENABLE([geoip],[AS_HELP_STRING([--enable-geoip],[Enable GeoIP country lookup. Supported types: mmdb, legacy. Default is disabled])],[geoip="$enableval"],[geoip=no])
+AC_ARG_ENABLE([geoip],[AS_HELP_STRING([--enable-geoip],[Enable GeoIP country lookup. Supported types: mmdb, legacy, nalicli. Default is disabled])],[geoip="$enableval"],[geoip=no])
 
 geolocation="N/A"
 if test "$geoip" = "mmdb"; then
@@ -78,11 +78,15 @@ elif test "$geoip" = "legacy"; then
   ])])
   geolocation="GeoIP Legacy"
   AC_DEFINE([HAVE_GEOLOCATION], 1, [Build using GeoIP.])
+elif test "$geoip" = "nalicli"; then
+  geolocation="Nali CLI"
+  AC_DEFINE([HAVE_GEOLOCATION], 1, [Build using GeoIP.])
 elif test "$geoip" != "no"; then
   AC_MSG_ERROR([*** Invalid argument for GeoIP: $geoip])
 fi
 AM_CONDITIONAL([GEOIP_LEGACY], [test "x$geoip" = "xlegacy"])
 AM_CONDITIONAL([GEOIP_MMDB], [test "x$geoip" = "xmmdb"])
+AM_CONDITIONAL([GEOIP_NALICLI], [test "x$geoip" = "xnalicli"])
 
 # GNU getline / POSIX.1-2008
 AC_ARG_WITH([getline],[AS_HELP_STRING([--with-getline],[Build using dynamic line buffer. Default is disabled])],[with_getline=$withval],[with_getline=no])

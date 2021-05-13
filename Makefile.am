@@ -205,6 +205,12 @@ goaccess_SOURCES +=  \
    src/geoip1.h
 endif
 
+if GEOIP_NALICLI
+goaccess_SOURCES +=  \
+   src/nalicli.c     \
+   src/geoip1.h
+endif
+
 if DEBUG
 AM_CFLAGS = -DDEBUG -O0 -g -DSYSCONFDIR=\"$(sysconfdir)\"
 else
